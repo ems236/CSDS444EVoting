@@ -1,6 +1,5 @@
-from primeutils import randprime
-
-from math import gcd
+from utils.primes import randprime
+from utils.math import gcd, powermod
 
 DEFAULT_BITS = 1024
 DEFAULT_PUBLIC_EXPONENT = 65537
@@ -15,13 +14,13 @@ def genrsa(bits=DEFAULT_BITS):
         #try again so you don't have to pick a good public exponent
         return genrsa(bits)
 
-    privateExponent = pow(DEFAULT_PUBLIC_EXPONENT, -1 , phiN)
+    privateExponent = powermod(DEFAULT_PUBLIC_EXPONENT, -1 , phiN)
     return (N, DEFAULT_PUBLIC_EXPONENT, privateExponent)
 
 
 def encrypt(m, publicExponent, N):
-    return pow(m, publicExponent, N)
+    return powermod(m, publicExponent, N)
 
 def decrypt(c, privateExponent, N):
-    return pow(c, privateExponent, N)
+    return powermod(c, privateExponent, N)
 

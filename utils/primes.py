@@ -20,7 +20,7 @@ def isprime(number, tests=MILLER_RABIN_TEST_COUNT):
         if number % p == 0:
             return p == number
         
-    #miller rabin tests, 6 tests gives super 
+    #miller rabin tests, 6 tests gives super good confidence. < 0.00025 chance of not being prime 
     (u, v) = odd_powerof2_decomposition(number - 1)
     for _ in range(0, tests):
         if miller_rabin_is_composite(number, u, v):
