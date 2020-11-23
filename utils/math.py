@@ -1,3 +1,5 @@
+from secrets import randbits
+
 #a^b mod n
 def powermod(a, b, n):
     if b < 0:
@@ -58,3 +60,5 @@ def inverse(a,n):
         return 0
     
     return x
+
+

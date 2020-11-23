@@ -1,4 +1,5 @@
 from secrets import randbits, randbelow
+from utils.math import gcd, powermod
 
 def randinrange(min, max):
     return min + randbelow(max - min)
@@ -30,13 +31,13 @@ def isprime(number, tests=MILLER_RABIN_TEST_COUNT):
 
 def miller_rabin_is_composite(n, u, v):
     b = randinrange(2, n - 2)
-    current = pow(b, v, n)
+    current = powermod(b, v, n)
     #all square roots of 1 are +- 1
     if current == 1 or current == n - 1:
         return False
 
     for _ in range(1, u):
-        current = pow(current, 2, n)
+        current = powermod(current, 2, n)
         #square root of 1 is not +- 1
         if current == 1:
             return True
@@ -57,3 +58,11 @@ def odd_powerof2_decomposition(n):
         u += 1
 
     return (u,v)
+
+def rand_relative_prime(maxbits: int, n: int):
+    """returns a number relatively prime to n and with maxbits bits"""
+    num = randbits(maxbits)
+    while gcd(num, n) > 1:
+        num = randbits(maxbits)
+
+    return num
