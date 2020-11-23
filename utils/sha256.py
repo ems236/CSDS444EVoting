@@ -1,4 +1,5 @@
 from bitarray import bitarray, util
+import math
 # Initialize hash values:
 # (first 32 bits of the fractional parts of the square roots of the first 8 primes 2..19):
 initial_hash = [
@@ -36,11 +37,12 @@ def int2ba32(a: int):
     return util.int2ba(a, length=32, endian='big')
 
 def sha256(message: bytes):
-    # Taken from Wikipedia pseudocode
-    # https://en.wikipedia.org/wiki/SHA-2#Pseudocode
-    # returns hash of message in bytes
-
-    # convert message to ascii, append into bit array
+    """ Return SHA-256 hash of message in bytes
+    Taken from Wikipedia pseudocode at https://en.wikipedia.org/wiki/SHA-2#Pseudocode
+    message: arbitrary-length bytes object
+    returns: length-32 bytes object
+    """
+    # convert message bitarray
     bit_msg = bitarray(endian='big')
     bit_msg.frombytes(message)
     L = len(bit_msg)
@@ -93,9 +95,32 @@ def sha256(message: bytes):
     # adding bytes appends them
     return b''.join(x.to_bytes(4, 'big') for x in current_hash)
 
+def sha256_fdh(message: bytes, target_length=None):
+    """ return full domain hash of message.
+    If target_length is None then return regular 32-byte SHA256 hash of message
+    Otherwise return sha256(message || 0) || sha256(message || 1) || ... || sha256(message || n)
+    where n is chosen such that output has length target_length (in bytes).
+    If target_length is not a multiple of 32 then pad end of fdh hash with 0s
+    """
+    if target_length is None:
+        return sha256(message)
+    if target_length < 32:
+        raise ValueError("target length must be a value in bytes >= 32, the length of one SHA256 output")
+    cycles = target_length // 32
+    # number of bytes needed to store largest cycle index to append to message
+    max_num_bytes = int(math.log(cycles, 2)//8) + 1
+    # concatenate hashes together
+    output = b''.join(sha256(message + c.to_bytes(max_num_bytes, 'big')) for c in range(cycles))
+    # append 0s to output until it reaches target_length
+    if target_length > len(output):
+        return output + (0).to_bytes(target_length - len(output), 'big')
+    return output
+
 def main():
     text = "hello world"
-    print(sha256(text.encode('utf-8')).hex())
+    target_length = 1024 // 8
+    print(sha256_fdh(text.encode('utf-8'), target_length).hex())
+    assert(len(sha256_fdh(text.encode('utf-8'), target_length)) == target_length)
 
 if __name__ == "__main__":
     main()
