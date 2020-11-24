@@ -46,6 +46,8 @@ class Administrator:
 	        voter_id = vote[0]
 	        encrypted_vote = vote[1]
 	        signature = vote[2]
+	        voter_N = None
+	        voter_exponent = None
 	    except IndexError as err:
 	    	print("The vote input is missing some elements".format(err))
 	    	raise err
@@ -58,7 +60,7 @@ class Administrator:
 	    	return sign_fdh(encrypted_vote, self.privateExponent, self.N)
 
 	    else:
-	    	return False
+	    	return None
 
 
 
