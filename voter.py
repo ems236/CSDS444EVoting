@@ -1,23 +1,33 @@
 from ballot import Ballot, Vote
+from utils import rsa
 
-import random
+import json
+import secrets
 
 class Voter:
-    ident: int
-    vote: Vote
 
-    def __init__(self, ident: int):
+    def __init__(self, ident: int, keypair: tuple, admin_key: tuple):
         self.ident = ident
+        self.N, self.publicExp, self.privateExp = keypair
+        self.admin_key = admin_key # (N, public, private)
 
-    def fill(self, ballot: Ballot) -> Vote:
-        """Fill out a ballot and return a vote with specific responses.
-        """
-        pass
-
-    def cast(self, vote: Vote):
+    def cast(self, vote_str: str):
         """Commit and sign the voter's vote, returning a tuple of (identity, committed vote, signature).
+        This gets sent to the administrator for authorization in the form of a blind signature.
         """
-        pass
+        # Read in vote JSON and attach random identifier to vote so we can identify it later
+        vote = json.loads(vote_str)
+        vote["uuid"] = secrets.randbits(64)
+        vote_str = json.dumps(vote)
+        vote_bytes = bytes(vote_str.encode('utf-8'))
+
+        # Create random commitment key the same length as the vote
+        commitment_key_int = secrets.randbits(8 * len(vote_bytes))
+        self.commitment_key = commitment_key_int.to_bytes(len(vote_bytes), 'big')
+        committed_vote = rsa.xor(vote_bytes, self.commitment_key)
+        blinded_vote = rsa.blind_fdh(committed_vote, self.admin_key[1], self.admin_key[0])
+        signature = rsa.sign_fdh(committed_vote, self.privateExp, self.N)
+        return (self.ident, blinded_vote, signature)
 
     def check_admin(self, admin_signature):
         """Prepare to send the vote to the counter given the administrator's blind signature.
