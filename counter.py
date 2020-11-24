@@ -1,26 +1,80 @@
 from ballot import Vote
+from utils.rsa import verify_fdh, xor
 
 class Counter:
-    # List of all committed votes received from voters
-    votes: list
 
-    # List of unlocked votes received from voters
-    unlocked_votes: list
+	"""
+	Creates a Counter instance given:
+		voters_list: dictionary of voter_id to public keys
+		signer_public_keys: tuple containing signer's public keys (N, exponent)
+		received_votes: list of votes already received
+		unlocked_votes: dictionary of index to unlocked votes TODO: should we use array of byte arrays? or call this good enough
+	"""
+    def __init__(self, voters_list, signer_public_keys, received_votes, unlocked_votes):
+    	self.voters_list = voters_list
+    	self.signer_public_keys = signer_public_keys
+    	self.received_votes = received_votes
+    	self.unlocked_votes = unlocked_votes
 
+
+    """
+    Adds the received vote if given signature is valid
+    Returns True if the vote is accepted. Returns False otherwise.
+    """
     def recv_vote(self, vote_sign_pair: tuple):
         """Check an incoming voter's vote/signature by checking the signature,
         then adding it to the list of votes
         """
-        # TODO Check vote_sign_pair[1] against vote_sign_pair[0],
-        # then add to list of votes
-        pass
+
+        try:
+        	vote = vote_sign_pair[0]
+        	signature = vote_sign_pair[1]
+        	signer_N = self.signer_public_keys[0]
+        	signer_exponent = self.signer_public_keys[1]
+        except IndexError as err:
+        	print("vote_sign_pair or signer_public_keys not containing enough values")
+        	raise err
+
+        if verify_fdh(vote, signature, signer_exponent, signer_N):
+        	self.received_votes.append(vote_sign_pair)
+        	return True
+        else:
+        	return False
+
+
 
     def unlock_vote(self, index_key_pair: tuple):
         """Unlock a voter's vote with the given key at the given index,
         then add it to the list of unlocked votes.
         """
-        pass
+        try:
+        	index = index_key_pair[0]
+        	key = index_key_pair[1]
+        except IndexError as err:
+        	print("missing either index or key in the input")
+        	raise err
 
+        if index >= len(self.received_votes):
+        	print("vote not received previously")
+        	raise IndexError()
+
+        vote = self.received_votes[index]
+
+        #unlocking the vote
+        revealed_vote = xor(vote, key)
+
+        """
+		TODO check the unlocked vote's validity 
+		(my understanding is that we need to know the expected format of the vote to do this)
+        """
+
+        #adding revealed vote to the list
+        self.unlocked_votes[index] = revealed_vote
+
+
+    """
+    TODO: need to decide on the format of the vote. What are we voting for?
+    """
     def count(self):
         """Count all unlocked votes and return the results of the election.
         """
