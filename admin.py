@@ -1,25 +1,20 @@
 from utils.rsa import genrsa, verify_fdh, sign_fdh
 
 class Administrator:
-    # List of registered voter ID numbers
-    
-    #registered_voters: list
-    registered_voters = []
-
-    # List of signed votes that passed certain checks
-    # signed_votes is a list of tuples of the same form as returned by Voter.cast()
-    
-    #signed_votes: list
-    signed_votes = []
 
     """
-    Creates an Administrator instance and sets up RSA keys
+    Creates an Administrator instance with list of voters and sets up RSA keys
+
+    voters_list: dictionary of registered voters with voter_id as a key and public key pair as a value
+    signed_list: list of ballots already signed
     """
-    def __init__(self):
+    def __init__(self, voters_list, signed_list):
     	N, publicExponent, privateExponent = genrsa()
     	self.N = N
     	self.publicExponent = publicExponent
     	self.privateExponent = privateExponent
+    	self.voters_list = voters_list
+   		self.signed_list = signed_list
 
     """
     Returns tuple of public keys, N and public Exponent
@@ -41,21 +36,25 @@ class Administrator:
         """
 
         # checking the input format
-        # TODO: get Voter's public keys
         try:
 	        voter_id = vote[0]
 	        encrypted_vote = vote[1]
 	        signature = vote[2]
-	        voter_N = None
-	        voter_exponent = None
-	    except IndexError as err:
-	    	print("The vote input is missing some elements".format(err))
-	    	raise err
+	        voter_N = self.voters_list[voter_id][0]
+	        voter_exponent = self.voters_list[voter_id][1]
+	    except IndexError as err1:
+	    	print("The vote input is missing some elements")
+	    	raise err1
+	    except ValueError as err2:
+	    	print("No public keys found for given voter")
+	    	raise err2
 
 	    # TODO: check whether the input vote will be the same format as returned value of Voter.cast()
-	    if voter_id is in Administrator.registered_voters \
-	    	and vote in not in signed_votes \
+	    if voter_id is in self.voters_list \
+	    	and vote in not in self.signed_list \
 	    	and verify_fdh(encrypted_vote, signature, voter_exponent, voter_N):
+
+	    	self.signed_list.append(vote)
 
 	    	return sign_fdh(encrypted_vote, self.privateExponent, self.N)
 
