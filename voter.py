@@ -27,7 +27,7 @@ class Voter:
         self.commitment_key = commitment_key_int.to_bytes(len(vote_bytes), 'big')
         self.committed_vote = rsa.xor(vote_bytes, self.commitment_key)
         blinded_vote = rsa.blind_fdh(self.committed_vote, self.admin_key[1], self.admin_key[0])
-        signature = rsa.sign_fdh(self.committed_vote, self.privateExp, self.N)
+        signature = rsa.sign_fdh(blinded_vote, self.privateExp, self.N)
         return (self.ident, blinded_vote, signature)
 
     def check_admin(self, admin_blind_signature, blind_nonce):
