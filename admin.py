@@ -1,4 +1,4 @@
-from utils.rsa import genrsa, verify_fdh, sign_fdh
+from utils.rsa import genrsa, verify_fdh, blind_sign
 
 class Administrator:
 
@@ -56,7 +56,7 @@ class Administrator:
 
 	    	self.signed_list.append(vote)
 
-	    	return sign_fdh(encrypted_vote, self.privateExponent, self.N)
+	    	return blind_sign(encrypted_vote, self.privateExponent, self.N)
 
 	    else:
 	    	return None
