@@ -95,12 +95,30 @@ def sha256(message: bytes):
     # adding bytes appends them
     return b''.join(x.to_bytes(4, 'big') for x in current_hash)
 
-def sha256_fdh(message: bytes, target_length=None):
+
+def sha256_fdh_below(message: bytes, upperbound: int):
+    """ return full domain hash of message.
+    sha256(message || c+0) || sha256(message || c+1) || ... || sha256(message || c+n)
+    where n is chosen such that output has length target_length (in bytes) 
+    c is the minimum nonnegative value such that the output is less than upperbound 
+    """
+    target_length = math.floor(math.log2(upperbound)) // 8
+
+    seed = 0
+    digest = sha256_fdh(message, target_length, seed)
+    while int.from_bytes(digest, 'big') > upperbound:
+        seed += 1
+        digest = sha256_fdh(message, target_length, seed)
+    
+    return digest
+
+def sha256_fdh(message: bytes, target_length=None, seed=0):
     """ return full domain hash of message.
     If target_length is None then return regular 32-byte SHA256 hash of message
-    Otherwise return sha256(message || 0) || sha256(message || 1) || ... || sha256(message || n)
+    Otherwise return sha256(message || seed + 0) || sha256(message || seed + 1) || ... || sha256(message || seed + n)
     where n is chosen such that output has length target_length (in bytes).
     If target_length is not a multiple of 32 then pad end of fdh hash with 0s
+    Seed only has an effect if target_length is not none
     """
     if target_length is None:
         return sha256(message)
@@ -110,7 +128,7 @@ def sha256_fdh(message: bytes, target_length=None):
     # number of bytes needed to store largest cycle index to append to message
     max_num_bytes = int(math.log(cycles, 2)//8) + 1
     # concatenate hashes together
-    output = b''.join(sha256(message + c.to_bytes(max_num_bytes, 'big')) for c in range(cycles))
+    output = b''.join(sha256(message + (c + seed).to_bytes(max_num_bytes, 'big')) for c in range(cycles))
     # append 0s to output until it reaches target_length
     if target_length > len(output):
         return output + (0).to_bytes(target_length - len(output), 'big')
