@@ -1,12 +1,24 @@
 import math
+from secrets import randbits
 
 from utils.primes import randprime, rand_relative_prime
 from utils.math import powermod, gcd
-from utils.sha256 import sha256_fdh_below
+from utils.sha256 import sha256_fdh_below, sha256_fdh
 
 def to_bytes(n: int):
     byteSize = math.ceil(n.bit_length() / 8)
     return n.to_bytes(byteSize, 'big') 
+
+def xor(a: bytes, b: bytes):
+    if len(a) != len(b):
+        raise ValueError("length mismatch in xor")
+
+    aint = int.from_bytes(a, 'big')
+    bint = int.from_bytes(b, 'big')
+
+    xorint = aint ^ bint
+    return xorint.to_bytes(len(a), 'big')
+
 
 DEFAULT_BITS = 1024
 #DEFAULT_PUBLIC_EXPONENT = 65537
@@ -32,13 +44,62 @@ def decrypt_simple(c: int, privateExponent: int, N: int):
     """textbook rsa decrpytion, don't use outside of testing"""
     return powermod(c, privateExponent, N)
 
-def encrypt_oaep(m: bytes, publicExponent: int, N:int):
-    """Unimplemented. We don't need it, but it seems cool and it could replace the xor commitment signing"""
-    pass
 
-def decrypt_oaep(c: bytes, publicExponent: int, N:int):
-    """Unimplemented. We don't need it, but it seems cool and it could replace the xor commitment signing"""
-    pass
+OAEP_SEED_BYTES = 32
+def encrypt_oaep(m: bytes, publicExponent: int, N:int):
+    """
+    Encrypts a message m, but adds some fancy padding first.  Prevents chosen plaintext attacks from working
+    We don't need this, but it seemed fun and could replace the xor commitment signing
+    see https://tools.ietf.org/html/rfc3447#section-7.1
+    """
+    
+    cipherSize = N.bit_length() // 8 - OAEP_SEED_BYTES - 1
+    paddingSize = cipherSize - len(m) - 1
+    if paddingSize < 0:
+        #would reasonably turn this into blocks instead
+        raise ValueError("Message too long")
+
+    seed = randbits(OAEP_SEED_BYTES * 8).to_bytes(OAEP_SEED_BYTES, 'big')
+    padded = (b"\x00" * paddingSize) + b"\x01" + m
+    
+    hashedSeed = sha256_fdh(seed, target_length=cipherSize)
+    
+    cipher = xor(padded, hashedSeed)
+
+    hashedCipher = sha256_fdh(cipher, target_length=OAEP_SEED_BYTES)
+    maskedSeed = xor(hashedCipher, seed)
+
+    msg_oaep = int.from_bytes(b"\x00" + maskedSeed + cipher, 'big')
+    return to_bytes(powermod(msg_oaep, publicExponent, N))
+    
+
+def decrypt_oaep(c: bytes, privateExponent: int, N:int):
+    """ 
+    Decrypts a message c, and removes the oaep padding to find the actual message
+    We don't need this, but it seemed fun and could replace the xor commitment signing
+    see https://tools.ietf.org/html/rfc3447#section-7.1
+    """
+
+    totalSize = N.bit_length() // 8
+    cipherSize = totalSize - OAEP_SEED_BYTES - 1
+
+    cipherTextInt = int.from_bytes(c, 'big')
+    decrypted = powermod(cipherTextInt, privateExponent, N).to_bytes(totalSize, 'big')
+
+    maskedSeed = decrypted[1:OAEP_SEED_BYTES + 1]
+    cipher = decrypted[OAEP_SEED_BYTES + 1:]
+
+    hashedCipher = sha256_fdh(cipher, target_length=OAEP_SEED_BYTES)
+
+    seed = xor(hashedCipher, maskedSeed)
+
+    hashedSeed = sha256_fdh(seed, target_length=cipherSize)
+
+    paddedMsg = xor(cipher, hashedSeed)
+
+    return paddedMsg[paddedMsg.find(b"\x01") + 1:]
+
+    
 
 def sign_fdh(m: bytes, privateExponent: int, N: int):
     """ returns signature as bytes
@@ -114,3 +175,9 @@ def test():
     print(unblinded)
 
     print(verify_fdh(mymessage, unblinded, mypub, mymod))
+
+    enc = encrypt_oaep(mymessage, mypub, mymod)
+    print(enc)
+
+    dec = decrypt_oaep(enc, mypriv, mymod)
+    print(dec)
