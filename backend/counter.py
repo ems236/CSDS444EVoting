@@ -11,7 +11,7 @@ class Counter:
     """
     def __init__(self, voters_list, admin_public_keys):
         self.voters_list = voters_list
-        self.signer_public_keys = admin_public_keys
+        self.admin_public_keys = admin_public_keys
         self.received_votes = []
         self.unlocked_votes = {}
 
@@ -28,8 +28,8 @@ class Counter:
         try:
             vote = vote_sign_pair[0]
             signature = vote_sign_pair[1]
-            signer_N = self.signer_public_keys[0]
-            signer_exponent = self.signer_public_keys[1]
+            signer_N = self.admin_public_keys[0]
+            signer_exponent = self.admin_public_keys[1]
         except IndexError as err:
             print("vote_sign_pair or signer_public_keys not containing enough values")
             raise err
