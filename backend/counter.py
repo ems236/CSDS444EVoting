@@ -63,7 +63,7 @@ class Counter:
         vote = self.received_votes[index]
 
         #unlocking the vote
-        revealed_vote = xor(vote, key)
+        revealed_vote = xor(vote[0], key)
 
         """
         check the unlocked vote's validity 
@@ -86,7 +86,6 @@ class Counter:
     def count(self):
         """Count all unlocked votes and return the results of the election.
         """
-
         #Initializing return format using ballot json
         ballot = json.load(open("sample_ballot.json"))
         result = {}
