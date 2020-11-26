@@ -54,9 +54,11 @@ class Voter:
 
         # Find index of voter's ballot in counter's list
         voter_ballot_candidates = [
-            # Filter counter list to check if committed vote and UUID are equal
+            # Filter counter list to check for committed vote
             idx for idx, vote in enumerate(counter_vote_list) if
-            vote[0] == self.committed_vote and json.loads(vote[0])["uuid"] == self.vote_uuid
+            vote[0] == self.committed_vote and json.loads(
+                rsa.xor(vote[0], self.commitment_key)
+            )["uuid"] == self.vote_uuid
         ]
         if not voter_ballot_candidates:
             raise ValueError(f"Voter {self.ident}'s ballot not found in counter's list")
