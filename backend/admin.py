@@ -1,4 +1,5 @@
 from utils.rsa import verify_fdh, blind_sign
+from sys import stderr
 
 class Administrator:
 
@@ -39,10 +40,10 @@ class Administrator:
             voter_N = self.voters_list[voter_id][0]
             voter_exponent = self.voters_list[voter_id][1]
         except IndexError as err1:
-            print("The vote input is missing some elements")
+            print("The vote input is missing some elements", file=stderr)
             raise err1
         except ValueError as err2:
-            print("No public keys found for given voter")
+            print("No public keys found for given voter", file=stderr)
             raise err2
 
         # TODO: check whether the input vote will be the same format as returned value of Voter.cast()
