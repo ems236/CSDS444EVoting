@@ -1,0 +1,19 @@
+{
+    "measures": {
+        "president": {
+            "question": "For President",
+            "responses": [
+                "Barbara Snyder",
+                "Kanye West",
+                "Joe Rogan"
+            ]
+        },
+        "prop1": {
+            "question": "Should we legalize krokodil",
+            "responses": [
+                "For legalization",
+                "Against legalization"
+            ]
+        }
+    }
+}

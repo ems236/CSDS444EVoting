@@ -1,4 +1,3 @@
-from ballot import Ballot, Vote
 from utils import rsa
 
 import json
@@ -11,12 +10,11 @@ class Voter:
         self.N, self.publicExp, self.privateExp = keypair
         self.admin_key = admin_key # (N, public, private)
 
-    def cast(self, vote_str: str):
+    def cast(self, vote: dict):
         """Commit and sign the voter's vote, returning a tuple of (identity, committed vote, signature).
         This gets sent to the administrator for authorization in the form of a blind signature.
         """
-        # Read in vote JSON and attach random identifier to vote so we can identify it later
-        vote = json.loads(vote_str)
+        # Attach random identifier to vote so we can identify it later
         self.vote_uuid = secrets.randbits(64)
         vote["uuid"] = self.vote_uuid
         vote_str = json.dumps(vote)
@@ -26,18 +24,18 @@ class Voter:
         commitment_key_int = secrets.randbits(8 * len(vote_bytes))
         self.commitment_key = commitment_key_int.to_bytes(len(vote_bytes), 'big')
         self.committed_vote = rsa.xor(vote_bytes, self.commitment_key)
-        blinded_vote = rsa.blind_fdh(self.committed_vote, self.admin_key[1], self.admin_key[0])
+        blinded_vote, self.blind_nonce = rsa.blind_fdh(self.committed_vote, self.admin_key[1], self.admin_key[0])
         signature = rsa.sign_fdh(blinded_vote, self.privateExp, self.N)
         return (self.ident, blinded_vote, signature)
 
-    def check_admin(self, admin_blind_signature, blind_nonce):
+    def check_admin(self, admin_blind_signature):
         """Prepare to send the vote to the counter given the administrator's blind signature.
         """
         # Unblind admin's signature and check against original committed vote
         # Exception will be thrown if signature was invalid
         admin_signature = rsa.unblind(
             admin_blind_signature,
-            blind_nonce,
+            self.blind_nonce,
             self.admin_key[0],
             self.committed_vote,
             self.admin_key[1]
@@ -56,9 +54,11 @@ class Voter:
 
         # Find index of voter's ballot in counter's list
         voter_ballot_candidates = [
-            # Filter counter list to check if committed vote and UUID are equal
+            # Filter counter list to check for committed vote
             idx for idx, vote in enumerate(counter_vote_list) if
-            vote[0] == self.committed_vote and json.loads(vote[0])["uuid"] == self.vote_uuid
+            vote[0] == self.committed_vote and json.loads(
+                rsa.xor(vote[0], self.commitment_key)
+            )["uuid"] == self.vote_uuid
         ]
         if not voter_ballot_candidates:
             raise ValueError(f"Voter {self.ident}'s ballot not found in counter's list")
