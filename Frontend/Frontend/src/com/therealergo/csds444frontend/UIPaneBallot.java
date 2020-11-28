@@ -112,4 +112,8 @@ public class UIPaneBallot extends UIPaneWithTexture {
 				)
 		);
 	}
+
+	public String getBallotData() {
+		return "{\n----digital\n----ballot\n----data\n}";
+	}
 }

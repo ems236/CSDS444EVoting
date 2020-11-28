@@ -152,7 +152,6 @@ public class UIScreenEVoteDemo extends UIScreen {
 								new UISizerPercent(0.8f), 
 								new UIPositionerIn.Center(),
 								new UIPaneWithText("text")
-								.setText("{\n----digital\n----ballot\n----data\n}")
 								.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
 								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 								.color.set(colorText)
@@ -170,7 +169,6 @@ public class UIScreenEVoteDemo extends UIScreen {
 								new UISizerPercent(0.8f), 
 								new UIPositionerIn.Center(),
 								new UIPaneWithText("text")
-								.setText("{\n----blinded\n----ballot\n----data\n}")
 								.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
 								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 								.color.set(colorText)
@@ -261,6 +259,10 @@ public class UIScreenEVoteDemo extends UIScreen {
 	
 	private void advanceState() {
 		if (state == 0) {
+			String ballotData = ((UIPaneBallot)getChild("right>v>ballot")).getBallotData();
+			App.render.backend.writeBallotData(ballotData);
+			((UIPaneWithText)getChild("right>v>digiballot>text")).setText(ballotData);
+			
 			getChild("right>v>ballot").playAnimation(new UIAnimation(
 					ETimelineMode.PLAY_ONCE, ETimelineCurve.SMOOTH_START, 2.0f, 
 					new UIAnimationFade(1.0f, -1.0f),
@@ -274,6 +276,8 @@ public class UIScreenEVoteDemo extends UIScreen {
 			((UIPaneWithText)getChild("right>v>next>text")).setText("Blind Ballot");
 			
 		} else if (state == 1) {
+			((UIPaneWithText)getChild("right>v>blindballot>text")).setText(App.render.backend.blindedCommittedVote);
+			
 			getChild("right>v>digiballot").playAnimation(new UIAnimation(
 					ETimelineMode.PLAY_ONCE, ETimelineCurve.SMOOTH_START, 2.0f, 
 					new UIAnimationFade(1.0f, -1.0f),
