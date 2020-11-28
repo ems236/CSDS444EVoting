@@ -14,7 +14,7 @@ public class App {
 			
 			render = new AppContextRender();
 			
-			Main.mainInit(App.class, args, "MainGL.numScreenMultisamples=16", 
+			Main.mainInit(App.class, args, "MainGL.numScreenMultisamples=8", 
 										   "MainGL.isScreenModeSRGB=true", 
 										   "MainGL.isForwardCompat=false", 
 										   "Main.isDebug=true");
