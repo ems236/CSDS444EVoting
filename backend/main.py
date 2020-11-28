@@ -10,11 +10,18 @@ from backend.counter import Counter
 from backend.voter import Voter
 
 # Number of voters to simulate
-NUM_VOTERS = 5
+NUM_VOTERS = 30
 
 BALLOT = "sample_ballot.json"
 
 eprint = lambda m: print(m, file=stderr)
+
+# Custom encoder for JSON class to convert bytes to hex
+class BytesEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, bytes):
+            return o.hex()
+        return json.JSONEncoder.default(self, o)
 
 def main():
     eprint("Setting up PKI...")
@@ -66,9 +73,10 @@ def main():
     
     # At this point, the current voter (voting from the fronted) is the last one that needs to vote
     # Here, we start to exchange data with the backend
+    eprint("Ready.")
     
     # Quick lambda to print JSON to stdout
-    printjson = lambda o: print(json.dumps(o))
+    printjson = lambda o: print(json.dumps(o, cls=BytesEncoder))
     # Transform a sequence to a dictionary given a list of names
     seq_to_dict = lambda s, n: {n[i]: s[i] for i in range(len(s))}
     
@@ -93,6 +101,7 @@ def main():
     printjson(seq_to_dict(vote_sign_pair, ["committed_vote", "admin_signature"]))
     
     # 5. Send the counter's last ten committed votes to the frontend for the counter tab
+    # Each entry in counter.received_votes is a vote/admin-signature pair
     printjson({ "votes": counter.received_votes[-10:] })
     
     # 6. Send the last voter's committed vote to the counter, don't send anything to frontend here
