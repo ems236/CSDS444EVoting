@@ -146,6 +146,13 @@ public class UIScreenEVoteDemo extends UIScreen {
 				paneC    = new UIPaneUser_Counter("c", colorText, this)
 				)
 		);
+
+		// Start with everything setup for state 0
+		// Can be used while hot-reload debugging to start at a different state
+		state = 0;
+		((UIPaneUser)getChild("right>v")).advanceToState(state);
+		((UIPaneUser)getChild("right>a")).advanceToState(state);
+		((UIPaneUser)getChild("right>c")).advanceToState(state);
 	}
 
 	private void switchToTab(UIPane pane, UIPositionerInterpolate panePos) {
@@ -173,10 +180,10 @@ public class UIScreenEVoteDemo extends UIScreen {
 	
 	public void advanceState(UIPaneUser user) {
 		if (user.shouldAdvance(state)) {
+			state++;
 			((UIPaneUser)getChild("right>v")).advanceToState(state);
 			((UIPaneUser)getChild("right>a")).advanceToState(state);
 			((UIPaneUser)getChild("right>c")).advanceToState(state);
-			state++;
 		}
 	}
 	

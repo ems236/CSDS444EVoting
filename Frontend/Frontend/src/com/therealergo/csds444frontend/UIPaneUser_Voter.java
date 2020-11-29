@@ -4,16 +4,12 @@ import com.therealergo.main.Main;
 import com.therealergo.main.gl.render.font.FontLayout.HorizontalAlign;
 import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
-import com.therealergo.main.gl.render.ui.UIAnimation;
-import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineCurve;
-import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineMode;
-import com.therealergo.main.gl.render.ui.animation.UIAnimationScale;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerOrigin;
+import com.therealergo.main.gl.render.ui.positioner.UIPositionerPercentOffset;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerPixelOffset;
-import com.therealergo.main.gl.render.ui.renderer.UIRendererBasic.UIAnimationColorize;
 import com.therealergo.main.gl.render.ui.sizer.UISizerFill;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercent;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercentMin;
@@ -97,17 +93,60 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		.setVisible(false)
 				.addChild(
 				new UISizerPercent(0.8f), 
-				new UIPositionerIn.Center(),
+				new UIPositionerIn.TopCenter(),
+				new UIPaneWithText("meta")
+				.setText("John Smith\n1101 Example St.\nId: " + App.render.backend.voterId)
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.08f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.TOP, true))
+				.color.set(1.0f, 0.1f, 0.1f, 1.0f)
+				)
+				.addChild(
+				new UISizerPercent(0.8f), 
+				new UIPositionerIn.Center().add(new UIPositionerPercentOffset(0.0f, -0.1f)),
 				new UIPaneWithText("text")
 				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
 				.setTextSizing(Sizing.FixedSizePercent(0.08f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
 				.color.set(0.1f, 0.1f, 0.1f, 1.0f)
 				)
 		);
+		
+		// Admin signature
+		addChild(
+		new UISizerPercentMin(0.8f, 0.3f), 
+		new UIPositionerIn.Center(), 
+		new UIPaneWithColor("adminsig")
+		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
+		.setVisible(false)
+				.addChild(
+				new UISizerPercent(0.9f), 
+				new UIPositionerIn.Center(),
+				new UIPaneWithText("text")
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.124f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
+				.color.set(1.0f, 0.1f, 0.1f, 1.0f)
+				)
+		);
+		
+		// Admin signature, unblinded
+		addChild(
+		new UISizerPercentMin(0.8f, 0.3f), 
+		new UIPositionerIn.Center(), 
+		new UIPaneWithColor("adminsigunblind")
+		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
+		.setVisible(false)
+				.addChild(
+				new UISizerPercent(0.9f), 
+				new UIPositionerIn.Center(),
+				new UIPaneWithText("text")
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.124f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
+				.color.set(0.1f, 0.7f, 0.1f, 1.0f)
+				)
+		);
 	}
 
 	@Override public void advanceToState(int state) {
-		if (state == 0) {
+		if (state == 1) {
 			String ballotData = ((UIPaneBallot)getChild("ballot")).getBallotData();
 			App.render.backend.writeBallotData(ballotData);
 			((UIPaneWithText)getChild("digiballot>text")).setText(ballotData);
@@ -120,7 +159,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 					"This signs your vote with your key, proving that YOU (and no one else) cast the vote. "
 			);
 			
-		} else if (state == 1) {
+		} else if (state == 2) {
 			((UIPaneWithText)getChild("commitballot>text")).setText(App.render.backend.committedUnblindedVote);
 			
 			animFadeOut(getChild("digiballot"));
@@ -132,7 +171,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 					"(until you use that same key to unblind the vote)."
 			);
 			
-		} else if (state == 2) {
+		} else if (state == 3) {
 			((UIPaneWithText)getChild("blindballot>text")).setText(App.render.backend.committedBlindedVote);
 			
 			animFadeOut(getChild("commitballot"));
@@ -144,15 +183,38 @@ public class UIPaneUser_Voter extends UIPaneUser {
 					"Alongside any verification information like name and voter id. "
 			);
 		
-		} else if (state == 3) {
-
+		} else if (state == 4) {
 			animFadeOut(getChild("blindballot"));
-			//TODO: Pulse animation proper
-			getParentPane().getParentPane().getChild("left>a").playAnimation(new UIAnimation(
-					ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_END, 2.0f, 
-					new UIAnimationColorize(new Vector4F(1.5f, 1.5f, 1.5f, 1.0f), new Vector4F(1.0f, 1.0f, 1.0f, 1.0f)),
-					new UIAnimationScale(1.4f, 1.0f)
-			));
+			animPopUser("a");
+			setNextText(null);
+			setExplainText("");
+			
+		} else if (state == 7) {
+			((UIPaneWithText)getChild("adminsig>text")).setText(App.render.backend.adminBlindSignature);
+			animFadeIn(getChild("adminsig"));
+			setNextText("Unblind");
+			setExplainText(
+					"With the administrator's blinded signature in hand, " + 
+					"the voter can now unblind that signature to get a valid administrator signature for their original committed ballot. " + 
+					"The voter will check to make sure that this signature matches that original committed ballot."
+			);
+		
+		} else if (state == 8) {
+			((UIPaneWithText)getChild("adminsigunblind>text")).setText(App.render.backend.adminUnblindedSignature);
+			animFadeOut(getChild("adminsig"));
+			animFadeIn(getChild("adminsigunblind"));
+			animFadeIn(getChild("commitballot"));
+			setNextText("Send");
+			setExplainText(
+					"The voter now sends the unblinded administrator signature & ballot to the counter. " + 
+					"The counter will know that the ballot is valid because the administrator's signature matches the ballot. " + 
+					"As such, the voter does not also need to send any personal information that could link them with their ballot."
+			);
+		
+		} else if (state == 9) {
+			animFadeOut(getChild("adminsigunblind"));
+			animFadeOut(getChild("commitballot"));
+			animPopUser("c");
 			setNextText(null);
 			setExplainText("");
 		}

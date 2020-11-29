@@ -3,10 +3,12 @@ package com.therealergo.csds444frontend;
 import com.therealergo.main.gl.render.font.FontLayout.HorizontalAlign;
 import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
+import com.therealergo.main.gl.render.simple2D.GeometrySimple2D;
 import com.therealergo.main.gl.render.ui.UIAnimation;
-import com.therealergo.main.gl.render.ui.UIPane;
+import com.therealergo.main.gl.render.ui.UIAnimation.Action;
 import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineCurve;
 import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineMode;
+import com.therealergo.main.gl.render.ui.UIPane;
 import com.therealergo.main.gl.render.ui.animation.UIAnimationScale;
 import com.therealergo.main.gl.render.ui.pane.UIPaneButton;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
@@ -14,6 +16,7 @@ import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerOrigin;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerPixelOffset;
+import com.therealergo.main.gl.render.ui.renderer.UIRendererBasic.UIAnimationColorize;
 import com.therealergo.main.gl.render.ui.renderer.UIRendererBasic.UIAnimationFade;
 import com.therealergo.main.gl.render.ui.sizer.UISizerFill;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercentMin;
@@ -88,9 +91,18 @@ public abstract class UIPaneUser extends UIPaneWithColor {
 	
 	protected final void animFadeOut(UIPane pane) {
 		pane.playAnimation(new UIAnimation(
-				ETimelineMode.PLAY_ONCE, ETimelineCurve.SMOOTH_START, 2.0f, 
+				ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_START, 2.0f, 
 				new UIAnimationFade(1.0f, -1.0f),
-				new UIAnimationScale(1.0f, 0.0f)
+				new UIAnimationScale(1.0f, 0.0f),
+				new UIAnimationHideAtEnd()
+		));
+	}
+	
+	protected final void animPopUser(String user) {
+		getParentPane().getParentPane().getChild("left>" + user).playAnimation(new UIAnimation(
+				ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_END, 2.0f, 
+				new UIAnimationColorize(new Vector4F(1.5f, 1.5f, 1.5f, 1.0f), new Vector4F(1.0f, 1.0f, 1.0f, 1.0f)),
+				new UIAnimationScale(1.4f, 1.0f)
 		));
 	}
 	
@@ -98,5 +110,15 @@ public abstract class UIPaneUser extends UIPaneWithColor {
 	
 	protected boolean shouldAdvance(int state) {
 		return true;
+	}
+	
+	private static class UIAnimationHideAtEnd extends Action {
+		@Override protected void renderPost(GeometrySimple2D arg0, UIPane arg1, float arg2) { }
+		
+		@Override protected void renderPre(GeometrySimple2D arg0, UIPane arg1, float arg2) {
+			if (arg2 == 1.0f) {
+				arg1.setVisible(false);
+			}
+		}
 	}
 }

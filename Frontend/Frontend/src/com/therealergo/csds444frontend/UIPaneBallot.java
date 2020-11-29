@@ -6,7 +6,6 @@ import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
 import com.therealergo.main.gl.render.ui.UIPane;
 import com.therealergo.main.gl.render.ui.pane.UIPaneTextEditor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneToggleButton;
-import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithTexture;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;

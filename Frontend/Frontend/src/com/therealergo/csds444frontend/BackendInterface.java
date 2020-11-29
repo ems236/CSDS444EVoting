@@ -71,7 +71,7 @@ public class BackendInterface {
 			
 			committedBlindedVote          = (String) line0.get("committed_vote");
 			committedBlindedVoteSignature = (String) line0.get("signature");
-			adminBlindSignature           = line1;
+			adminBlindSignature           = line1.substring(1, line1.length() - 1);
 			committedUnblindedVote        = (String) line2.get("committed_vote");
 			adminUnblindedSignature       = (String) line2.get("admin_signature");
 			Main.log.log(line3);
