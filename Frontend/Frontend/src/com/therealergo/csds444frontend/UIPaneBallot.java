@@ -50,12 +50,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row1>l", "row1>r", "row2>l", "row2>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -74,12 +68,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row1>r", "row1>l", "row2>l", "row2>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -104,12 +92,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row2>l", "row1>l", "row1>r", "row2>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -128,12 +110,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row2>r", "row1>l", "row1>r", "row2>l"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -173,12 +149,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row5>l", "row5>r", "row6>l"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -197,12 +167,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row5>r", "row5>l", "row6>l"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -227,12 +191,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row6>l", "row5>l", "row5>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -281,12 +239,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row10>l", "row10>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -305,12 +257,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row10>r", "row10>l"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -359,12 +305,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row14>l", "row14>r"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
@@ -383,12 +323,6 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
 								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row14>r", "row14>l"); } }
-										.addChild(
-										new UISizerFill(), 
-										new UIPositionerOrigin(), 
-										new UIPaneWithColor("vis")
-										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
-										)
 								)
 								.addChild(
 								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
