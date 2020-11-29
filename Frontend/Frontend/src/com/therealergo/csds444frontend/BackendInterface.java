@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.ProcessBuilder.Redirect;
 
-import com.therealergo.main.MainException;
+import org.json.JSONObject;
+
+import com.therealergo.main.Main;
 
 public class BackendInterface {
 	private final Process backendProc;
@@ -16,13 +18,20 @@ public class BackendInterface {
 	
 	public final String voterId;
 	
-	public String blindedCommittedVote         ;
-	public String blindedCommittedVoteSignature;
+	public String committedBlindedVote         ;
+	public String committedBlindedVoteSignature;
+	public String adminBlindSignature          ;
+	public String committedUnblindedVote       ;
+	public String adminUnblindedSignature      ;
+//	public String[] votes??
+	public String lastVoteUnlocked             ;
 	
 	public BackendInterface() throws IOException {
 		
 		// Start the backend Python process
-		ProcessBuilder backendProcBuilder = new ProcessBuilder().command("python", "./main.py");
+		ProcessBuilder backendProcBuilder = new ProcessBuilder()
+				.directory(Main.resource.getResourceFolderLocal("").getParent().getParent().getParent().toFile())
+				.command("python", "./main.py");
 		backendProcBuilder.redirectError(Redirect.INHERIT);
 		backendProcBuilder.redirectOutput(Redirect.PIPE);
 		this.backendProc = backendProcBuilder.start();
@@ -32,19 +41,13 @@ public class BackendInterface {
 		this.backendOutputWriter = new BufferedWriter(new OutputStreamWriter(backendProc.getOutputStream()));
 		
 		// Read the voter id that's immediately spit out by the backend
+		backendOutputWriter.write("\n");
+		backendOutputWriter.flush();
 		this.voterId = backendOutputReader.readLine();
 		
 		// All of these values are null until the backend sends them over
-		this.blindedCommittedVote          = null;
-		this.blindedCommittedVoteSignature = null;
-	}
-	
-	private final String textEscape(String text) {
-		return text.replace("\\", "\\\\").replace("\n", "\\n");
-	}
-	
-	private final String textUnEscape(String text) {
-		return text.replace("\\n", "\n").replace("\\\\", "\\");
+		this.committedBlindedVote          = null;
+		this.committedBlindedVoteSignature = null;
 	}
 	
 	public String readVoterId() {
@@ -55,15 +58,28 @@ public class BackendInterface {
 		try {
 			
 			// Write the ballot data
-			backendOutputWriter.write(textEscape(ballotData) + "\n");
+			backendOutputWriter.write(ballotData.replace("\n", "") + "\n");
 			backendOutputWriter.flush();
 			
 			// Now that the backend has all of the ballot data, it will send back everything else
-			blindedCommittedVote          = textUnEscape(backendOutputReader.readLine());
-			blindedCommittedVoteSignature = textUnEscape(backendOutputReader.readLine());
+			JSONObject line0 = new JSONObject(backendOutputReader.readLine());
+			String     line1 =                backendOutputReader.readLine() ;
+			JSONObject line2 = new JSONObject(backendOutputReader.readLine());
+			JSONObject line3 = new JSONObject(backendOutputReader.readLine());
+			String     line4 =                backendOutputReader.readLine() ;
+			JSONObject line5 = new JSONObject(backendOutputReader.readLine());
+			
+			committedBlindedVote          = (String) line0.get("committed_vote");
+			committedBlindedVoteSignature = (String) line0.get("signature");
+			adminBlindSignature           = line1;
+			committedUnblindedVote        = (String) line2.get("committed_vote");
+			adminUnblindedSignature       = (String) line2.get("admin_signature");
+			Main.log.log(line3);
+			lastVoteUnlocked              = line4;
+			Main.log.log(line5);
 			
 		} catch (IOException e) {
-			throw new MainException(App.class, "Failed in backend ballot data I/O!", e);
+//			throw new MainException(App.class, "Failed in backend ballot data I/O!", e);
 		}
 	}
 	

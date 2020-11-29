@@ -13,7 +13,6 @@ import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerList;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerList.Direction;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerOrigin;
-import com.therealergo.main.gl.render.ui.positioner.UIPositionerPercentOffset;
 import com.therealergo.main.gl.render.ui.sizer.UISizerFill;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercent;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercentMin;
@@ -23,97 +22,412 @@ public class UIPaneBallot extends UIPaneWithTexture {
 		super(name);
 		texture.set("packedtextures>ui>ballot.jpg");
 		
+		float vSize = 0.036f;
+
 		addChild(
-		new UISizerPercent(0.45f, 0.05f), 
-		new UIPositionerIn.Center().add(new UIPositionerPercentOffset(0.0f, 4.0f)), 
-		new UIPane("row0")
+		new UISizerPercent(0.45f, 0.76f), 
+		new UIPositionerIn.BottomCenter(), 
+		new UIPane("rows")
+				
 				.addChild(
-				new UISizerPercentMin(1.0f), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row0")
+				.setText("Vote for one candidate for President of CWRU")
+				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row1")
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColor("vis")
-						.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Barbara Snyder")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
 						)
-				)
-				.addChild(
-				new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneWithText("text")
-				.setText(" Legalize Babs ----------")
-				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
-				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
-				)
-		);
-		
-		addChild(
-		new UISizerPercent(0.45f, 0.05f), 
-		new UIPositionerIn.Center().add(new UIPositionerPercentOffset(0.0f, 2.0f)), 
-		new UIPane("row1")
-				.addChild(
-				new UISizerPercentMin(1.0f), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColor("vis")
-						.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+						new UIPane("r")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Baker Mayfield")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.RIGHT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
 						)
 				)
+				
 				.addChild(
-				new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneWithText("text")
-				.setText(" Legalize Cocaine ------")
-				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
-				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
-				)
-		);
-		
-		addChild(
-		new UISizerPercent(0.45f, 0.05f), 
-		new UIPositionerIn.Center().add(new UIPositionerPercentOffset(0.0f, 0.0f)), 
-		new UIPane("row2")
-				.addChild(
-				new UISizerPercentMin(1.0f), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row2")
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColor("vis")
-						.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Barack Obama")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("r")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Craig Newmark")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.RIGHT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
 						)
 				)
+				
 				.addChild(
-				new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
-				new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-				new UIPaneWithText("text")
-				.setText(" Legalize Weed ---------")
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row3")
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row4")
+				.setText("Vote for one candidate for Mayor of Cleveland")
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 				)
-		);
-		
-		addChild(
-		new UISizerPercent(0.45f, 0.05f), 
-		new UIPositionerIn.Center().add(new UIPositionerPercentOffset(0.0f, -2.0f)), 
-		new UIPane("row3")
+				
 				.addChild(
-				new UISizerFill(), 
-				new UIPositionerIn.Center(), 
-				new UIPaneTextEditor("text")
-				.setGhostText("Enter Voter Id Number")
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row5")
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Drew Carey")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("r")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Kid Cudi")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.RIGHT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row6")
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Jimmy Haslam")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row7")
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row8")
+				.setText("Do you support building a pedestrian bridge")
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row9")
+				.setText("over Euclid at Adelbert?")
+				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row10")
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Yes")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("r")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("No")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.RIGHT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row11")
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row12")
+				.setText("Do you support replacing the chicken tendies")
+				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPaneWithText("row13")
+				.setText("at Carlton Commons with cantaloupe salad?")
+				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row14")
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("l")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("Yes")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerOrigin(), 
+						new UIPane("r")
+								.addChild(
+								new UISizerPercentMin(1.0f), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+										.addChild(
+										new UISizerFill(), 
+										new UIPositionerOrigin(), 
+										new UIPaneWithColor("vis")
+										.color.set(0.3f, 0.3f, 0.3f, 1.0f)
+										)
+								)
+								.addChild(
+								new UISizerFill().add(new UISizerPercentMin(1.0f, 0.0f)), 
+								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
+								new UIPaneWithText("text")
+								.setText("No")
+								.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.RIGHT, VerticalAlign.CENTER))
+								.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+								)
+						)
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row15")
+				)
+				
+				.addChild(
+				new UISizerPercent(1.0f, vSize), 
+				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
+				new UIPane("row16")
+						.addChild(
+						new UISizerFill(), 
+						new UIPositionerIn.Center(), 
+						new UIPaneTextEditor("text")
+						.setGhostText("Enter Voter Id Number")
+						.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER))
+						.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+						)
 				)
 		);
 	}
 
 	public String getBallotData() {
-		return "{\n----digital\n----ballot\n----data\n}";
+		return "{\"vote\": {\n\t\"president\": \"Craig Newmark\", \n\t\"cleveland\": \"Jimmy Haslam\", \n\t\"prop1\": \"No\", \n\t\"prop2\": \"No\"\n}}";
+	}
+
+	public boolean isValid() {
+		return App.render.backend.voterId.equals(((UIPaneTextEditor)getChild("rows>row16>text")).getText());
 	}
 }
