@@ -5,7 +5,6 @@ import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
 import com.therealergo.main.gl.render.ui.UIPane;
 import com.therealergo.main.gl.render.ui.pane.UIPaneToggleButton;
-import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerList;
@@ -13,7 +12,7 @@ import com.therealergo.main.gl.render.ui.positioner.UIPositionerList.Direction;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercent;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercentMin;
 
-public class UIPaneVoterRegistry extends UIPaneWithColor {
+public class UIPaneVoterRegistry extends UIPaneWithColorShadow {
 	public UIPaneVoterRegistry(String name) {
 		super(name);
 		

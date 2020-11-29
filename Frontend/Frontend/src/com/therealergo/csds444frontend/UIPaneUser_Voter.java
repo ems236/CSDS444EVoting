@@ -4,7 +4,6 @@ import com.therealergo.main.Main;
 import com.therealergo.main.gl.render.font.FontLayout.HorizontalAlign;
 import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
-import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerOrigin;
@@ -39,7 +38,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.4f, 0.1f), 
 		new UIPositionerIn.TopRight().add(new UIPositionerPixelOffset(-30.0f, -30.0f)), 
-		new UIPaneWithColor("note")
+		new UIPaneWithColorShadow("note")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 				.addChild(
 				new UISizerFill(), 
@@ -54,7 +53,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.7f, 0.4f), 
 		new UIPositionerIn.Center(), 
-		new UIPaneWithColor("digiballot")
+		new UIPaneWithColorShadow("digiballot")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(
@@ -71,7 +70,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.7f), 
 		new UIPositionerIn.Center(), 
-		new UIPaneWithColor("commitballot")
+		new UIPaneWithColorShadow("commitballot")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(
@@ -88,7 +87,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.7f), 
 		new UIPositionerIn.Center(), 
-		new UIPaneWithColor("blindballot")
+		new UIPaneWithColorShadow("blindballot")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(
@@ -114,7 +113,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.8f, 0.3f), 
 		new UIPositionerIn.Center(), 
-		new UIPaneWithColor("adminsig")
+		new UIPaneWithColorShadow("adminsig")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(
@@ -131,7 +130,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.8f, 0.3f), 
 		new UIPositionerIn.Center(), 
-		new UIPaneWithColor("adminsigunblind")
+		new UIPaneWithColorShadow("adminsigunblind")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(

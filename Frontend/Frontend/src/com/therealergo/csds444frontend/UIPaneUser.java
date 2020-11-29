@@ -11,7 +11,6 @@ import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineMode;
 import com.therealergo.main.gl.render.ui.UIPane;
 import com.therealergo.main.gl.render.ui.animation.UIAnimationScale;
 import com.therealergo.main.gl.render.ui.pane.UIPaneButton;
-import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerOrigin;
@@ -22,7 +21,7 @@ import com.therealergo.main.gl.render.ui.sizer.UISizerFill;
 import com.therealergo.main.gl.render.ui.sizer.UISizerPercentMin;
 import com.therealergo.main.math.Vector4F;
 
-public abstract class UIPaneUser extends UIPaneWithColor {
+public abstract class UIPaneUser extends UIPaneWithColorShadow {
 	public UIPaneUser(String name, Vector4F colorText, UIScreenEVoteDemo eVote) {
 		super(name);
 		
@@ -52,7 +51,7 @@ public abstract class UIPaneUser extends UIPaneWithColor {
 				.addChild(
 				new UISizerFill(), 
 				new UIPositionerOrigin(), 
-				new UIPaneWithColorRounded("vis")
+				new UIPaneWithColorRoundedShadow("vis")
 				.color.set(0.3f, 0.3f, 0.3f, 1.0f)
 				)
 				.addChild(

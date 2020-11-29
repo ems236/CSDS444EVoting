@@ -12,9 +12,28 @@ public class UIRendererEVoteDemo extends UIRendererBasic {
 			GeometrySimple2D g, UIPane pane, Meta meta,
 			float cr, float cg, float cb, float ca
 	) {
+		// Fancy drop-shadow renderer for big panes
+		if (pane instanceof UIPaneWithColorShadow) {
+			UIPaneWithColorShadow paneReal = (UIPaneWithColorShadow)pane;
+			g.helper.addRectangleRoundedEdge(
+					14.0f, 30.0f, 
+					pane.getAreaLeft () + 10.0f, pane.getAreaBottom() - 10.0f, 
+					pane.getAreaRight() + 10.0f, pane.getAreaTop   () - 10.0f, 
+					0.0f, 0.0f, 0.0f, 0.6f,
+					0.0f, 0.0f, 0.0f, 0.0f,
+					10.0f
+			);
+			g.addPositionClip(pane.getAreaLeft(), pane.getAreaBottom(), pane.getAreaRight(), pane.getAreaTop());
+			g.helper.addRectangle(
+					null, null, null, null, 
+					pane.getAreaLeft (), pane.getAreaBottom(), 0.0f, 0.0f, 
+					pane.getAreaRight(), pane.getAreaTop   (), 1.0f, 1.0f, 
+					paneReal.color.getR()*cr, paneReal.color.getG()*cg, paneReal.color.getB()*cb, paneReal.color.getA()*ca
+			);
+			
 		// Fancy rounded-rectangle-with-drop-shadow renderer for the big buttons
-		if (pane instanceof UIPaneWithColorRounded) {
-			UIPaneWithColorRounded paneReal = (UIPaneWithColorRounded)pane;
+		} else if (pane instanceof UIPaneWithColorRoundedShadow) {
+			UIPaneWithColorRoundedShadow paneReal = (UIPaneWithColorRoundedShadow)pane;
 			g.helper.addRectangleRoundedEdge(
 					14.0f, 30.0f, 
 					pane.getAreaLeft () + 10.0f, pane.getAreaBottom() - 10.0f, 

@@ -4,7 +4,6 @@ import com.therealergo.main.Main;
 import com.therealergo.main.gl.render.font.FontLayout.HorizontalAlign;
 import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
-import com.therealergo.main.gl.render.ui.pane.UIPaneWithColor;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerIn;
 import com.therealergo.main.gl.render.ui.positioner.UIPositionerPercentOffset;
@@ -32,7 +31,7 @@ public class UIPaneUser_Administrator extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.7f), 
 		new UIPositionerIn.CenterLeft().add(new UIPositionerPixelOffset(30.0f, 0.0f)), 
-		new UIPaneWithColor("blindballot")
+		new UIPaneWithColorShadow("blindballot")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(
@@ -58,7 +57,7 @@ public class UIPaneUser_Administrator extends UIPaneUser {
 		addChild(
 		new UISizerPercentMin(0.8f, 0.3f), 
 		new UIPositionerIn.CenterLeft().add(new UIPositionerPixelOffset(30.0f, 0.0f)), 
-		new UIPaneWithColor("adminsig")
+		new UIPaneWithColorShadow("adminsig")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 		.setVisible(false)
 				.addChild(

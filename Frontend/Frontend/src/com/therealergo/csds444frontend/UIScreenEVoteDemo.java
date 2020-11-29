@@ -51,7 +51,7 @@ public class UIScreenEVoteDemo extends UIScreen {
 		addChild(
 		new UISizerPercentMin(0.15f, 0.0f).add(new UISizerPercent(0.0f, 1.0f)), 
 		new UIPositionerOrigin(), 
-		new UIPaneWithColor("left")
+		new UIPaneWithColorShadow("left")
 		.color.set(0.2f, 0.2f, 0.2f, 1.0f)
 				.addChild(
 				new UISizerPercentMin(0.75f), 
@@ -60,7 +60,7 @@ public class UIScreenEVoteDemo extends UIScreen {
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColorRounded("vis")
+						new UIPaneWithColorRoundedShadow("vis")
 						.color.set(0.3f, 0.0f, 0.0f, 1.0f)
 								.addChild(
 								new UISizerFill(), 
@@ -78,7 +78,7 @@ public class UIScreenEVoteDemo extends UIScreen {
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColorRounded("vis")
+						new UIPaneWithColorRoundedShadow("vis")
 						.color.set(0.0f, 0.3f, 0.0f, 1.0f)
 								.addChild(
 								new UISizerFill(), 
@@ -96,7 +96,7 @@ public class UIScreenEVoteDemo extends UIScreen {
 						.addChild(
 						new UISizerFill(), 
 						new UIPositionerOrigin(), 
-						new UIPaneWithColorRounded("vis")
+						new UIPaneWithColorRoundedShadow("vis")
 						.color.set(0.0f, 0.0f, 0.3f, 1.0f)
 								.addChild(
 								new UISizerFill(), 
