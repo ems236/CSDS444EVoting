@@ -1,18 +1,34 @@
 {
     "measures": {
         "president": {
-            "question": "For President",
+            "question": "Vote for one candidate for President of CWRU",
             "responses": [
                 "Barbara Snyder",
-                "Kanye West",
-                "Joe Rogan"
+                "Baker Mayfield",
+                "Barack Obama",
+                "Craig Newmark"
+            ]
+        },
+        "cleveland": {
+            "question": "Vote for one candidate for Mayor of Cleveland",
+            "responses": [
+                "Drew Carey",
+                "Kid Cudi",
+                "Jimmy Haslam"
             ]
         },
         "prop1": {
-            "question": "Should we legalize krokodil",
+            "question": "Do you support building a pedestrian bridge over Euclid at Adelbert?",
             "responses": [
-                "For legalization",
-                "Against legalization"
+                "Yes",
+                "No"
+            ]
+        },
+        "prop2": {
+            "question": "Do you support replacing the chicken tendies at Carlton Commons with cantaloupe salad?",
+            "responses": [
+                "Yes",
+                "No"
             ]
         }
     }
