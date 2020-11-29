@@ -49,7 +49,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row1>l", "row1>r", "row2>l", "row2>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -73,7 +73,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row1>r", "row1>l", "row2>l", "row2>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -103,7 +103,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row2>l", "row1>l", "row1>r", "row2>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -127,7 +127,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row2>r", "row1>l", "row1>r", "row2>l"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -172,7 +172,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row5>l", "row5>r", "row6>l"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -196,7 +196,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row5>r", "row5>l", "row6>l"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -226,7 +226,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row6>l", "row5>l", "row5>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -280,7 +280,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row10>l", "row10>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -304,7 +304,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row10>r", "row10>l"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -358,7 +358,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.LEFT_TO_RIGHT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row14>l", "row14>r"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -382,7 +382,7 @@ public class UIPaneBallot extends UIPaneWithTexture {
 								.addChild(
 								new UISizerPercentMin(1.0f), 
 								new UIPositionerList(Direction.RIGHT_TO_LEFT, 0.5f), 
-								new UIPaneToggleButton("button")      //{ protected void performAction() { switchToTab(paneA, paneAPos); } }
+								new UIPaneToggleButton("button")      { protected void performAction() { handleVoteSelect("row14>r", "row14>l"); } }
 										.addChild(
 										new UISizerFill(), 
 										new UIPositionerOrigin(), 
@@ -423,11 +423,83 @@ public class UIPaneBallot extends UIPaneWithTexture {
 		);
 	}
 
+	protected void handleVoteSelect(String selectPath, String... otherPaths) {
+		for (String otherPath : otherPaths) {
+			((UIPaneToggleButton)getChild("rows>" + otherPath + ">button")).manuallySetToggled(false);
+		}
+	}
+	
+	private String readButton(String prev, String path) {
+		if (prev != null) {
+			return prev;
+		}
+		if (((UIPaneToggleButton)getChild(path + ">button")).isToggled()) {
+			return ((UIPaneWithText)getChild(path + ">text")).getText();
+		} else {
+			return null;
+		}
+	}
+
 	public String getBallotData() {
-		return "{\"vote\": {\n\t\"president\": \"Craig Newmark\", \n\t\"cleveland\": \"Jimmy Haslam\", \n\t\"prop1\": \"No\", \n\t\"prop2\": \"No\"\n}}";
+		
+		// Read in the vote statuses from the user-facing buttons
+		String votePresident = null;
+		votePresident = readButton(votePresident, "rows>row1>l");
+		votePresident = readButton(votePresident, "rows>row1>r");
+		votePresident = readButton(votePresident, "rows>row2>l");
+		votePresident = readButton(votePresident, "rows>row2>r");
+		
+		String voteCleveland = null;
+		voteCleveland = readButton(voteCleveland, "rows>row5>l");
+		voteCleveland = readButton(voteCleveland, "rows>row5>r");
+		voteCleveland = readButton(voteCleveland, "rows>row6>l");
+		
+		String voteProp1 = null;
+		voteProp1 = readButton(voteProp1, "rows>row10>l");
+		voteProp1 = readButton(voteProp1, "rows>row10>r");
+
+		String voteProp2 = null;
+		voteProp2 = readButton(voteProp2, "rows>row14>l");
+		voteProp2 = readButton(voteProp2, "rows>row14>r");
+		
+		// Construct a json vote from those buttons
+		return "{" + 
+			   "\n\t\"vote\": {" + 
+			   "\n\t\t\"president\": \"" + votePresident + "\"," + 
+			   "\n\t\t\"cleveland\": \"" + voteCleveland + "\"," + 
+			   "\n\t\t\"prop1\": \"" + voteProp1 + "\"," + 
+			   "\n\t\t\"prop2\": \"" + voteProp2 + "\"" + 
+			   "\n\t}" + 
+			   "\n}";
 	}
 
 	public boolean isValid() {
-		return App.render.backend.voterId.equals(((UIPaneTextEditor)getChild("rows>row16>text")).getText());
+
+		// Read in the vote statuses from the user-facing buttons
+		String votePresident = null;
+		votePresident = readButton(votePresident, "rows>row1>l");
+		votePresident = readButton(votePresident, "rows>row1>r");
+		votePresident = readButton(votePresident, "rows>row2>l");
+		votePresident = readButton(votePresident, "rows>row2>r");
+		
+		String voteCleveland = null;
+		voteCleveland = readButton(voteCleveland, "rows>row5>l");
+		voteCleveland = readButton(voteCleveland, "rows>row5>r");
+		voteCleveland = readButton(voteCleveland, "rows>row6>l");
+		
+		String voteProp1 = null;
+		voteProp1 = readButton(voteProp1, "rows>row10>l");
+		voteProp1 = readButton(voteProp1, "rows>row10>r");
+
+		String voteProp2 = null;
+		voteProp2 = readButton(voteProp2, "rows>row14>l");
+		voteProp2 = readButton(voteProp2, "rows>row14>r");
+		
+		// Ensure that all votes have had a selection and the voter id number has been inserted
+		return votePresident != null && 
+			   voteCleveland != null && 
+			   voteProp1 != null && 
+			   voteProp2 != null && 
+			   App.render.backend.voterId.equals(((UIPaneTextEditor)getChild("rows>row16>text")).getText());
 	}
 }
