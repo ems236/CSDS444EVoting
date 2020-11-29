@@ -1,0 +1,35 @@
+{
+    "measures": {
+        "president": {
+            "question": "Vote for one candidate for President of CWRU",
+            "responses": [
+                "Barbara Snyder",
+                "Baker Mayfield",
+                "Barack Obama",
+                "Craig Newmark"
+            ]
+        },
+        "cleveland": {
+            "question": "Vote for one candidate for Mayor of Cleveland",
+            "responses": [
+                "Drew Carey",
+                "Kid Cudi",
+                "Jimmy Haslam"
+            ]
+        },
+        "prop1": {
+            "question": "Do you support building a pedestrian bridge over Euclid at Adelbert?",
+            "responses": [
+                "Yes",
+                "No"
+            ]
+        },
+        "prop2": {
+            "question": "Do you support replacing the chicken tendies at Carlton Commons with cantaloupe salad?",
+            "responses": [
+                "Yes",
+                "No"
+            ]
+        }
+    }
+}
