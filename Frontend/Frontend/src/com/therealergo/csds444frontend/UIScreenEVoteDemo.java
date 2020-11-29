@@ -37,7 +37,7 @@ public class UIScreenEVoteDemo extends UIScreen {
 	public UIScreenEVoteDemo(String name) {
 		super(name, new UIRendererEVoteDemo(), 0.0f, false);
 		
-		Vector4F colorText = new Vector4F(1.00f, 0.80f, 0.20f, 1.0f);
+		Vector4F colorText = new Vector4F(1.0f, 1.0f, 1.0f, 0.8f);
 		
 		// Dark grey background behind everything
 		addChild(
