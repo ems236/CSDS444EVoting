@@ -346,11 +346,19 @@ public class UIPaneBallot extends UIPaneWithTexture {
 				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
 				new UIPane("row16")
 						.addChild(
-						new UISizerFill(), 
-						new UIPositionerIn.Center(), 
+						new UISizerPercent(0.4f, 1.0f), 
+						new UIPositionerList(Direction.LEFT_TO_RIGHT), 
+						new UIPaneWithText("label")
+						.setText("Voter Id Number:")
+						.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER))
+						.color.set(0.0f, 0.0f, 0.0f, 1.0f)
+						)
+						.addChild(
+						new UISizerPercent(0.6f, 1.0f), 
+						new UIPositionerList(Direction.LEFT_TO_RIGHT), 
 						new UIPaneTextEditor("text")
 						.setGhostText("Enter Voter Id Number")
-						.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER))
+						.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 						.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 						)
 				)
