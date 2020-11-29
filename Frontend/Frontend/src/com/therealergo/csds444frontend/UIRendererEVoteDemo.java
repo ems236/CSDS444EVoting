@@ -11,6 +11,14 @@ public class UIRendererEVoteDemo extends UIRendererBasic {
 	) {
 		if (pane instanceof UIPaneWithColorRounded) {
 			UIPaneWithColorRounded paneReal = (UIPaneWithColorRounded)pane;
+			g.helper.addRectangleRoundedEdge(
+					14.0f, 30.0f, 
+					pane.getAreaLeft () + 10.0f, pane.getAreaBottom() - 10.0f, 
+					pane.getAreaRight() + 10.0f, pane.getAreaTop   () - 10.0f, 
+					0.0f, 0.0f, 0.0f, 0.6f,
+					0.0f, 0.0f, 0.0f, 0.0f,
+					10000.0f
+			);
 			g.helper.addRectangleRounded(
 					null, null, null, null, 
 					pane.getAreaLeft (), pane.getAreaBottom(), 0.0f, 0.0f, 
