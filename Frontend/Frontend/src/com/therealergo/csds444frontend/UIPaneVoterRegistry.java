@@ -35,7 +35,7 @@ public class UIPaneVoterRegistry extends UIPaneWithColorShadow {
 				new UISizerPercent(0.9f, vSize), 
 				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
 				new UIPaneWithText("row0")
-				.setText("Alice Sue\n1234 Glencoe Ter.\nId: 29864")
+				.setText("Alice Sue\n1234 Glencoe Ter.\nId: " + (int)(Math.random() * 65535))
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 
@@ -51,7 +51,7 @@ public class UIPaneVoterRegistry extends UIPaneWithColorShadow {
 				new UISizerPercent(0.9f, vSize), 
 				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
 				new UIPaneWithText("row1")
-				.setText("Ben Old\n1234 Woodcrest Ln.\nId: 102")
+				.setText("Ben Elder\n1234 Woodcrest Ln.\nId: 420")
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 
@@ -67,7 +67,7 @@ public class UIPaneVoterRegistry extends UIPaneWithColorShadow {
 				new UISizerPercent(0.9f, vSize), 
 				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
 				new UIPaneWithText("row2")
-				.setText("Christine Harvey\n101 Oak Rd. Box #9\nId: 73593")
+				.setText("Christine Harvey\n101 Oak Rd. Box #9\nId: " + (int)(Math.random() * 65535))
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 
@@ -83,7 +83,7 @@ public class UIPaneVoterRegistry extends UIPaneWithColorShadow {
 				new UISizerPercent(0.9f, vSize), 
 				new UIPositionerList(Direction.TOP_TO_BOTTOM, 0.5f), 
 				new UIPaneWithText("row3")
-				.setText("Kristina Byrd (Tiphanie)\n1534 E. 45th St.\nId: 83596")
+				.setText("Kristina Byrd (Tiphanie)\n1534 E. 45th St.\nId: " + (int)(Math.random() * 65535))
 				.setTextSizing(Sizing.VerticalFit(0.9f, 0.0f, 0.0f, HorizontalAlign.LEFT, VerticalAlign.CENTER))
 				.color.set(0.0f, 0.0f, 0.0f, 1.0f)
 
