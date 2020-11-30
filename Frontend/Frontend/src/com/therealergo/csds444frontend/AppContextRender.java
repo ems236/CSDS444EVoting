@@ -1,16 +1,13 @@
 package com.therealergo.csds444frontend;
 
-import java.io.IOException;
-
 import com.therealergo.main.Main;
-import com.therealergo.main.MainException;
 import com.therealergo.main.gl.ContextRender;
 import com.therealergo.main.gl.render.loading.UIScreenLoadingMain;
 import com.therealergo.main.task.Task;
 
 public class AppContextRender extends ContextRender {
 	public BackendInterface backend;
-	private UIScreenEVoteDemo screen;
+	public UIScreenEVoteDemo screen;
 	
 	@Override protected final void glInit() {
 		// Set window title
@@ -31,11 +28,7 @@ public class AppContextRender extends ContextRender {
 		Main.tree.load();
 		
 		// Start up the backend
-		try {
-			backend = new BackendInterface();
-		} catch (IOException e) {
-			throw new MainException(App.class, "Backend failed to start!", e);
-		}
+		backend = new BackendInterface();
 		
 		// Start up our UI
 		screen = (UIScreenEVoteDemo) Main.gl.render.ui.addScreen(new UIScreenEVoteDemo("evotedemo"));

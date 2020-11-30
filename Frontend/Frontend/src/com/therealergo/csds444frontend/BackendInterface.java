@@ -10,6 +10,7 @@ import java.lang.ProcessBuilder.Redirect;
 import org.json.JSONObject;
 
 import com.therealergo.main.Main;
+import com.therealergo.main.MainException;
 
 public class BackendInterface {
 	private final Process backendProc;
@@ -18,36 +19,50 @@ public class BackendInterface {
 	
 	public final String voterId;
 	
+	public String ballotData                   ;
 	public String committedBlindedVote         ;
 	public String committedBlindedVoteSignature;
 	public String adminBlindSignature          ;
 	public String committedUnblindedVote       ;
 	public String adminUnblindedSignature      ;
-//	public String[] votes??
 	public String lastVoteUnlocked             ;
+	public String voteList                     ;
+	public String committedUnblindedVote0      ;
+	public String committedUnblindedVote1      ;
+	public String committedUnblindedVote2      ;
 	
-	public BackendInterface() throws IOException {
+	public JSONObject results;
+	
+	public BackendInterface() {
 		
 		// Start the backend Python process
-		ProcessBuilder backendProcBuilder = new ProcessBuilder()
-				.directory(Main.resource.getResourceFolderLocal("").getParent().getParent().getParent().toFile())
-				.command("python", "./main.py");
-		backendProcBuilder.redirectError(Redirect.INHERIT);
-		backendProcBuilder.redirectOutput(Redirect.PIPE);
-		this.backendProc = backendProcBuilder.start();
-		
-		// Setup to read from / write to backend's output
-		this.backendOutputReader = new BufferedReader(new InputStreamReader (backendProc.getInputStream ()));
-		this.backendOutputWriter = new BufferedWriter(new OutputStreamWriter(backendProc.getOutputStream()));
-		
-		// Read the voter id that's immediately spit out by the backend
-		backendOutputWriter.write("\n");
-		backendOutputWriter.flush();
-		this.voterId = backendOutputReader.readLine();
-		
-		// All of these values are null until the backend sends them over
-		this.committedBlindedVote          = null;
-		this.committedBlindedVoteSignature = null;
+		try {
+			ProcessBuilder backendProcBuilder = new ProcessBuilder()
+					
+					// Enable this line to run the backend from an in-workspace build
+					.directory(Main.resource.getResourceFolderLocal("").getParent().getParent().getParent().toFile())
+					
+					.command("python", "./main.py");
+			backendProcBuilder.redirectError(Redirect.INHERIT);
+			backendProcBuilder.redirectOutput(Redirect.PIPE);
+			this.backendProc = backendProcBuilder.start();
+			
+			// Setup to read from / write to backend's output
+			this.backendOutputReader = new BufferedReader(new InputStreamReader (backendProc.getInputStream ()));
+			this.backendOutputWriter = new BufferedWriter(new OutputStreamWriter(backendProc.getOutputStream()));
+			
+			// Read the voter id that's immediately spit out by the backend
+			backendOutputWriter.write("\n");
+			backendOutputWriter.flush();
+			this.voterId = backendOutputReader.readLine();
+			
+			// All of these values are null until the backend sends them over
+			this.committedBlindedVote          = null;
+			this.committedBlindedVoteSignature = null;
+			
+		} catch (IOException e) {
+			throw new MainException(App.class, "Internal failure while starting backend process!", e);
+		}
 	}
 	
 	public String readVoterId() {
@@ -55,6 +70,7 @@ public class BackendInterface {
 	}
 	
 	public void writeBallotData(String ballotData) {
+		this.ballotData = ballotData;
 		try {
 			
 			// Write the ballot data
@@ -74,9 +90,14 @@ public class BackendInterface {
 			adminBlindSignature           = line1.substring(1, line1.length() - 1);
 			committedUnblindedVote        = (String) line2.get("committed_vote");
 			adminUnblindedSignature       = (String) line2.get("admin_signature");
-			Main.log.log(line3);
+			voteList                      = line3.get("votes").toString();
+			committedUnblindedVote0       = line3.getJSONArray("votes").getJSONArray(0).get(0).toString();
+			committedUnblindedVote1       = line3.getJSONArray("votes").getJSONArray(1).get(0).toString();
+			committedUnblindedVote2       = line3.getJSONArray("votes").getJSONArray(2).get(0).toString();
 			lastVoteUnlocked              = line4;
-			Main.log.log(line5);
+			results                       = line5;
+			
+			Main.log.log(results.getJSONObject("prop2").getInt("No"));
 			
 		} catch (IOException e) {
 //			throw new MainException(App.class, "Failed in backend ballot data I/O!", e);

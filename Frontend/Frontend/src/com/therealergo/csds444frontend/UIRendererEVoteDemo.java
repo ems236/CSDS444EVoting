@@ -19,7 +19,7 @@ public class UIRendererEVoteDemo extends UIRendererBasic {
 					14.0f, 30.0f, 
 					pane.getAreaLeft () + 10.0f, pane.getAreaBottom() - 10.0f, 
 					pane.getAreaRight() + 10.0f, pane.getAreaTop   () - 10.0f, 
-					0.0f, 0.0f, 0.0f, 0.6f,
+					0.0f, 0.0f, 0.0f, 0.6f*ca,
 					0.0f, 0.0f, 0.0f, 0.0f,
 					10.0f
 			);

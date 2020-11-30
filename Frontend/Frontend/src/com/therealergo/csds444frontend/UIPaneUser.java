@@ -1,5 +1,8 @@
 package com.therealergo.csds444frontend;
 
+import java.util.Random;
+
+import com.therealergo.main.Main;
 import com.therealergo.main.gl.render.font.FontLayout.HorizontalAlign;
 import com.therealergo.main.gl.render.font.FontLayout.Sizing;
 import com.therealergo.main.gl.render.font.FontLayout.VerticalAlign;
@@ -9,6 +12,7 @@ import com.therealergo.main.gl.render.ui.UIAnimation.Action;
 import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineCurve;
 import com.therealergo.main.gl.render.ui.UIAnimation.ETimelineMode;
 import com.therealergo.main.gl.render.ui.UIPane;
+import com.therealergo.main.gl.render.ui.animation.UIAnimationRotate;
 import com.therealergo.main.gl.render.ui.animation.UIAnimationScale;
 import com.therealergo.main.gl.render.ui.pane.UIPaneButton;
 import com.therealergo.main.gl.render.ui.pane.UIPaneWithText;
@@ -97,6 +101,42 @@ public abstract class UIPaneUser extends UIPaneWithColorShadow {
 		));
 	}
 	
+	protected final void animSlideLeft(UIPane pane, float speed) {
+		pane.playAnimationFirst(new UIAnimation(
+				ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_START, 4.0f, 
+				new UIAnimationTranslateLeft(speed), 
+				new UIAnimationFade(1.0f, 0.0f),
+				new UIAnimationHideAtEnd()
+		));
+	}
+	
+	protected final void animSlideRight(UIPane pane, float speed) {
+		pane.playAnimationFirst(new UIAnimation(
+				ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_START, 4.0f, 
+				new UIAnimationTranslateRight(speed), 
+				new UIAnimationFade(1.0f, 0.0f),
+				new UIAnimationHideAtEnd()
+		));
+	}
+	
+	protected final void animPaperRotate(UIPane pane) {
+		Random rand = new Random(pane.getFullPath().hashCode());
+		pane.playAnimation(new UIAnimation(
+				ETimelineMode.PLAY_ONCE, ETimelineCurve.SMOOTH_ALL, 2.0f, 
+				new UIAnimationRotate((rand.nextFloat()-0.5f) * 0.5f, 0.0f),
+				new UIAnimationScale(1.0f, 0.8f)
+		));
+	}
+	
+	protected final void animPaperUnRotate(UIPane pane) {
+		Random rand = new Random(pane.getFullPath().hashCode());
+		pane.playAnimation(new UIAnimation(
+				ETimelineMode.PLAY_ONCE, ETimelineCurve.SMOOTH_ALL, 2.0f, 
+				new UIAnimationRotate((rand.nextFloat()-0.5f) * -0.5f, 0.0f),
+				new UIAnimationScale(1.0f, 1.0f/0.8f)
+		));
+	}
+	
 	protected final void animPopUser(String user) {
 		getParentPane().getParentPane().getChild("left>" + user).playAnimation(new UIAnimation(
 				ETimelineMode.PLAY_ONCE_AND_STOP, ETimelineCurve.SMOOTH_END, 2.0f, 
@@ -112,12 +152,48 @@ public abstract class UIPaneUser extends UIPaneWithColorShadow {
 	}
 	
 	private static class UIAnimationHideAtEnd extends Action {
-		@Override protected void renderPost(GeometrySimple2D arg0, UIPane arg1, float arg2) { }
-		
 		@Override protected void renderPre(GeometrySimple2D arg0, UIPane arg1, float arg2) {
 			if (arg2 == 1.0f) {
 				arg1.setVisible(false);
 			}
+		}
+		
+		@Override protected void renderPost(GeometrySimple2D arg0, UIPane arg1, float arg2) { }
+	}
+	
+	private static class UIAnimationTranslateLeft extends Action {
+		private float speed;
+		
+		public UIAnimationTranslateLeft(float speed) {
+			this.speed = speed;
+		}
+
+		@Override protected void renderPre(GeometrySimple2D arg0, UIPane arg1, float arg2) {
+			Main.gl.camera.saveMatrix_Model();
+			float parentWidth = arg1.getParentPane().getAreaRight() - arg1.getParentPane().getAreaLeft();
+			Main.gl.camera.getMatrixModel().translate(-arg2 * parentWidth * speed, 0.0f, 0.0f);
+		}
+		
+		@Override protected void renderPost(GeometrySimple2D arg0, UIPane arg1, float arg2) {
+			Main.gl.camera.loadMatrix_Model();
+		}
+	}
+	
+	private static class UIAnimationTranslateRight extends Action {
+		private float speed;
+		
+		public UIAnimationTranslateRight(float speed) {
+			this.speed = speed;
+		}
+		
+		@Override protected void renderPre(GeometrySimple2D arg0, UIPane arg1, float arg2) {
+			Main.gl.camera.saveMatrix_Model();
+			float parentWidth = arg1.getParentPane().getAreaRight() - arg1.getParentPane().getAreaLeft();
+			Main.gl.camera.getMatrixModel().translate(arg2 * parentWidth * speed, 0.0f, 0.0f);
+		}
+		
+		@Override protected void renderPost(GeometrySimple2D arg0, UIPane arg1, float arg2) {
+			Main.gl.camera.loadMatrix_Model();
 		}
 	}
 }

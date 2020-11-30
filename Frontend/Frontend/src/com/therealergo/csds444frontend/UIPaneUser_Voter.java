@@ -142,6 +142,57 @@ public class UIPaneUser_Voter extends UIPaneUser {
 				.color.set(0.1f, 0.7f, 0.1f, 1.0f)
 				)
 		);
+		
+		// "Committed" version of another person's ballot #0
+		addChild(
+		new UISizerPercentMin(0.7f), 
+		new UIPositionerIn.Center(), 
+		new UIPaneWithColorShadow("commitballot0")
+		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
+		.setVisible(false)
+				.addChild(
+				new UISizerPercent(0.8f), 
+				new UIPositionerIn.Center(),
+				new UIPaneWithText("text")
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.08f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
+				.color.set(0.1f, 0.1f, 0.1f, 1.0f)
+				)
+		);
+		
+		// "Committed" version of another person's ballot #1
+		addChild(
+		new UISizerPercentMin(0.7f), 
+		new UIPositionerIn.Center(), 
+		new UIPaneWithColorShadow("commitballot1")
+		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
+		.setVisible(false)
+				.addChild(
+				new UISizerPercent(0.8f), 
+				new UIPositionerIn.Center(),
+				new UIPaneWithText("text")
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.08f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
+				.color.set(0.1f, 0.1f, 0.1f, 1.0f)
+				)
+		);
+		
+		// "Committed" version of another person's ballot #2
+		addChild(
+		new UISizerPercentMin(0.7f), 
+		new UIPositionerIn.Center(), 
+		new UIPaneWithColorShadow("commitballot2")
+		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
+		.setVisible(false)
+				.addChild(
+				new UISizerPercent(0.8f), 
+				new UIPositionerIn.Center(),
+				new UIPaneWithText("text")
+				.setFont(Main.tree.font.get("fonts>main>Inconsolata-Bold.ttf"))
+				.setTextSizing(Sizing.FixedSizePercent(0.08f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, true))
+				.color.set(0.1f, 0.1f, 0.1f, 1.0f)
+				)
+		);
 	}
 
 	@Override public void advanceToState(int state) {
@@ -213,6 +264,41 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		} else if (state == 9) {
 			animFadeOut(getChild("adminsigunblind"));
 			animFadeOut(getChild("commitballot"));
+			animPopUser("c");
+			setNextText(null);
+			setExplainText("");
+		
+		} else if (state == 12) {
+			((UIPaneWithText)getChild("commitballot0>text")).setText(App.render.backend.committedUnblindedVote0);
+			((UIPaneWithText)getChild("commitballot1>text")).setText(App.render.backend.committedUnblindedVote1);
+			((UIPaneWithText)getChild("commitballot2>text")).setText(App.render.backend.committedUnblindedVote2);
+			animPaperRotate(getChild("commitballot"));
+			animPaperRotate(getChild("commitballot0"));
+			animPaperRotate(getChild("commitballot1"));
+			animPaperRotate(getChild("commitballot2"));
+			animFadeIn(getChild("commitballot"));
+			animFadeIn(getChild("commitballot0"));
+			animFadeIn(getChild("commitballot1"));
+			animFadeIn(getChild("commitballot2"));
+			setNextText("Search");
+			setExplainText(
+					"With the list of all committed votes now published, " + 
+					"the voter may now search the list to ensure that their ballot is included within and being counted."
+			);
+		
+		} else if (state == 13) {
+			animSlideRight(getChild("commitballot0"), 1.0f + ((float)Math.random()) * 1.0f);
+			animSlideRight(getChild("commitballot1"), 1.0f + ((float)Math.random()) * 1.0f);
+			animSlideRight(getChild("commitballot2"), 1.0f + ((float)Math.random()) * 1.0f);
+			animPaperUnRotate(getChild("commitballot"));
+			setNextText("Send");
+			setExplainText(
+					"Once the voter has located their vote, they must anonymously send the counter their commitment key. " + 
+					"This lets the counter unlock their ballot and read the votes contained within."
+			);
+			
+		} else if (state == 14) {
+			animSlideLeft(getChild("commitballot") , 1.0f + ((float)Math.random()) * 1.0f);
 			animPopUser("c");
 			setNextText(null);
 			setExplainText("");

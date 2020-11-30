@@ -47,6 +47,44 @@ public class UIScreenEVoteDemo extends UIScreen {
 		.color.set(0.1f, 0.1f, 0.1f, 1.0f)
 		);
 		
+		// Right hand pane
+		addChild(
+		new UISizerFullScreen().add(new UISizerPercentMin(-0.15f, 0.0f)), 
+		new UIPositionerIn.CenterRight(), 
+		new UIPane("right")
+		
+				// Helpful explain-y text behind all of the panes
+				.addChild(
+				new UISizerFill(), 
+				new UIPositionerOrigin(), 
+				new UIPaneWithText("text")
+				.setText("Select a user to get started")
+				.setTextSizing(Sizing.FixedSizePixel(15.0f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, false))
+				.color.set(colorText)
+				)
+				
+				// "VOTER" pane
+				.addChild(
+				new UISizerFill(), 
+				paneVPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
+				paneV    = new UIPaneUser_Voter("v", colorText, this)
+				)
+				
+				// "ADMINISTRATOR" pane
+				.addChild(
+				new UISizerFill(), 
+				paneAPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
+				paneA    = new UIPaneUser_Administrator("a", colorText, this)
+				)
+				
+				// "COUNTER" pane
+				.addChild(
+				new UISizerFill(), 
+				paneCPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
+				paneC    = new UIPaneUser_Counter("c", colorText, this)
+				)
+		);
+		
 		// Left-hand pane
 		addChild(
 		new UISizerPercentMin(0.15f, 0.0f).add(new UISizerPercent(0.0f, 1.0f)), 
@@ -108,46 +146,8 @@ public class UIScreenEVoteDemo extends UIScreen {
 						)
 				)
 		);
-		
-		// Right hand pane
-		addChild(
-		new UISizerFullScreen().add(new UISizerPercentMin(-0.15f, 0.0f)), 
-		new UIPositionerIn.CenterRight(), 
-		new UIPane("right")
-		
-				// Helpful explain-y text behind all of the panes
-				.addChild(
-				new UISizerFill(), 
-				new UIPositionerOrigin(), 
-				new UIPaneWithText("text")
-				.setText("Select a user to get started")
-				.setTextSizing(Sizing.FixedSizePixel(15.0f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, false))
-				.color.set(colorText)
-				)
-				
-				// "VOTER" pane
-				.addChild(
-				new UISizerFill(), 
-				paneVPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
-				paneV    = new UIPaneUser_Voter("v", colorText, this)
-				)
-				
-				// "ADMINISTRATOR" pane
-				.addChild(
-				new UISizerFill(), 
-				paneAPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
-				paneA    = new UIPaneUser_Administrator("a", colorText, this)
-				)
-				
-				// "COUNTER" pane
-				.addChild(
-				new UISizerFill(), 
-				paneCPos = new UIPositionerInterpolate(0.0f, new UIPositionerOrigin().add(new UIPositionerPercentOffset(1.0f, 0.0f)), new UIPositionerOrigin()), 
-				paneC    = new UIPaneUser_Counter("c", colorText, this)
-				)
-		);
 
-		// Start with everything setup for state 0
+		// Start with everything set up for state 0
 		// Can be used while hot-reload debugging to start at a different state
 		state = 0;
 		((UIPaneUser)getChild("right>v")).advanceToState(state);
