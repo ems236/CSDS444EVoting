@@ -59,8 +59,8 @@ public class UIScreenEVoteDemo extends UIScreen {
 				new UIPositionerOrigin(), 
 				new UIPaneWithText("text")
 				.setText("Select a user to get started")
-				.setTextSizing(Sizing.FixedSizePixel(15.0f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, false))
-				.color.set(colorText)
+				.setTextSizing(Sizing.FixedSizePixel(26.0f, 0.0f, 0.0f, HorizontalAlign.CENTER, VerticalAlign.CENTER, false))
+				.color.set(colorText.x, colorText.y, colorText.z, colorText.w * 0.1f)
 				)
 				
 				// "VOTER" pane
