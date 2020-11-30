@@ -16,7 +16,7 @@ public class App {
 			
 			Main.mainInit(App.class, args, "MainGL.numScreenMultisamples=8", 
 										   "MainGL.isScreenModeSRGB=true", 
-										   "MainGL.isForwardCompat=false", 
+										   "MainGL.isForwardCompat=true", 
 										   "Main.isDebug=true");
 			
 			Main.gl.glInit(render, true);
