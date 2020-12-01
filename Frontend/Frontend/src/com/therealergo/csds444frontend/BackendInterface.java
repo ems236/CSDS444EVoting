@@ -97,10 +97,8 @@ public class BackendInterface {
 			lastVoteUnlocked              = line4;
 			results                       = line5;
 			
-			Main.log.log(results.getJSONObject("prop2").getInt("No"));
-			
 		} catch (IOException e) {
-//			throw new MainException(App.class, "Failed in backend ballot data I/O!", e);
+			throw new MainException(App.class, "Failed in backend ballot data I/O!", e);
 		}
 	}
 	
