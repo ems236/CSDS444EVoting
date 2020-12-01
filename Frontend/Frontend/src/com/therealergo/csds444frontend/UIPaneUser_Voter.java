@@ -37,7 +37,7 @@ public class UIPaneUser_Voter extends UIPaneUser {
 		// Note containing the user's name and voter id
 		addChild(
 		new UISizerPercentMin(0.4f, 0.1f), 
-		new UIPositionerIn.TopRight().add(new UIPositionerPixelOffset(-30.0f, -30.0f)), 
+		new UIPositionerIn.TopRight().add(new UIPositionerPixelOffset(-30.0f, -230.0f)), 
 		new UIPaneWithColorShadow("note")
 		.color.set(1.0f, 1.0f, 1.0f, 1.0f)
 				.addChild(
