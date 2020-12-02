@@ -1,0 +1,7 @@
+"locator" = "Texture2DPackedFolder"
+"loader"  = "Texture2DPackedLoader"
+
+"pack" = "packedtextures"
+
+"wrapX" = "CLAMP_TO_EDGE"
+"wrapY" = "CLAMP_TO_EDGE"

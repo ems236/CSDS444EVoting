@@ -14,7 +14,7 @@ NUM_VOTERS = 30
 
 BALLOT = "sample_ballot.json"
 
-eprint = lambda m: print(m, file=stderr)
+eprint = lambda m: print(m, file=stderr, flush=True)
 
 # Custom encoder for JSON class to convert bytes to hex
 class BytesEncoder(json.JSONEncoder):
@@ -76,7 +76,7 @@ def main():
     eprint("Ready.")
     
     # Quick lambda to print JSON to stdout
-    printjson = lambda o: print(json.dumps(o, cls=BytesEncoder))
+    printjson = lambda o: print(json.dumps(o, cls=BytesEncoder), flush=True)
     # Transform a sequence to a dictionary given a list of names
     seq_to_dict = lambda s, n: {n[i]: s[i] for i in range(len(s))}
     
