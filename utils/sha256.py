@@ -1,4 +1,7 @@
 from bitarray import bitarray, util
+import hashlib
+import time
+import secrets
 import math
 # Initialize hash values:
 # (first 32 bits of the fractional parts of the square roots of the first 8 primes 2..19):
@@ -135,10 +138,18 @@ def sha256_fdh(message: bytes, target_length=None, seed=0):
     return output
 
 def main():
-    text = "hello world"
-    target_length = 1024 // 8
-    print(sha256_fdh(text.encode('utf-8'), target_length).hex())
-    assert(len(sha256_fdh(text.encode('utf-8'), target_length)) == target_length)
+    # speed test
+    # run sha256 on random bytes
+    start_time = time.clock_gettime(time.CLOCK_REALTIME)
+    for _ in range(100):
+        sha256(secrets.token_bytes(nbytes=10000))
+    end_time = time.clock_gettime(time.CLOCK_REALTIME)
+    print((end_time - start_time) / 100 * 10**6)
+    start_time = time.clock_gettime(time.CLOCK_REALTIME)
+    for _ in range(100):
+        hashlib.sha256(secrets.token_bytes(nbytes=10000))
+    end_time = time.clock_gettime(time.CLOCK_REALTIME)
+    print((end_time - start_time) / 100 * 10**6)
 
 if __name__ == "__main__":
     main()
