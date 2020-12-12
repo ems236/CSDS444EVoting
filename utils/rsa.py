@@ -1,5 +1,13 @@
 import math
+import time
+
 from secrets import randbits
+
+#Used only for speed tests
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.backends import default_backend as crypto_default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 
 from utils.primes import randprime, rand_relative_prime
 from utils.math import powermod, gcd
@@ -181,3 +189,100 @@ def test():
 
     dec = decrypt_oaep(enc, mypriv, mymod)
     print(dec)
+
+def time_rsa_gen(modulus_bits): 
+    print(f"Generating 10 keys with {modulus_bits} bit modulus")
+    t = time.perf_counter()
+    for _ in range(10):
+        genrsa(modulus_bits)
+
+    elapsed = time.perf_counter() - t
+    print(f"our module takes {elapsed:.6f} to make 100 keys")
+
+    t = time.perf_counter()
+    for _ in range(10):
+        rsa.generate_private_key(
+            backend=crypto_default_backend(),
+            public_exponent=65537,
+            key_size=modulus_bits
+        )  
+
+    elapsed = time.perf_counter() - t
+    print(f"crypto module takes {elapsed:.6f} to make 100 keys")
+
+def time_rsa_sign(modulus_bits): 
+    print(f"Blind signing hello world! with {modulus_bits} bit modulus")
+    (N, e, d) = genrsa(modulus_bits)
+    s = "hello world!".encode("utf-8")
+    t = time.perf_counter()
+    for _ in range(1000):
+        sign_fdh(s, d, N)        
+    elapsed = time.perf_counter() - t
+    print(f"our module takes {elapsed:.6f} to sign 100 times")
+
+    sig = sign_fdh(s, d, N)
+    t = time.perf_counter()
+    for _ in range(1000):
+        verify_fdh(s, sig, e, N)        
+    elapsed = time.perf_counter() - t
+    print(f"our module takes {elapsed:.6f} to verify 100 times")
+
+    t = time.perf_counter()
+    for _ in range(1000):
+        blind_fdh(s, e, N)        
+    elapsed = time.perf_counter() - t
+    print(f"our module takes {elapsed:.6f} to blind 100 times")
+
+    (b, r) = blind_fdh(s, e, N)
+    bs = blind_sign(b, d, N)
+    t = time.perf_counter()
+    for _ in range(1000):
+        unblind(bs, r, N)        
+    elapsed = time.perf_counter() - t
+    print(f"our module takes {elapsed:.6f} to unblind 100 times")
+
+def time_rsa_builtin(modulus_bits, trials):
+    message = b"Hello World!"
+    private_key = rsa.generate_private_key(
+            backend=crypto_default_backend(),
+            public_exponent=65537,
+            key_size=modulus_bits
+        )
+    t = time.perf_counter()
+    for _ in range(trials):
+        private_key.sign(
+            message,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+    
+    elapsed = time.perf_counter() - t
+    print(f"crypto module takes {elapsed:.6f} to sign {trials} times ({elapsed / trials * 1000 :.3f} ms)")
+
+    pubkey = private_key.public_key()
+    sig = private_key.sign(
+            message,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+
+    t = time.perf_counter()
+    for _ in range(trials):
+        pubkey.verify(
+            sig,
+            message,
+            padding.PSS(
+                mgf=padding.MGF1(hashes.SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH
+            ),
+            hashes.SHA256()
+        )
+    
+    elapsed = time.perf_counter() - t
+    print(f"crypto module takes {elapsed:.6f} to verify {trials} times ({elapsed / trials * 1000 :.3f} ms)")

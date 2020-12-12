@@ -102,7 +102,7 @@ def sha256_fdh_below(message: bytes, upperbound: int):
     where n is chosen such that output has length target_length (in bytes) 
     c is the minimum nonnegative value such that the output is less than upperbound 
     """
-    target_length = math.floor(math.log2(upperbound)) // 8
+    target_length = upperbound.bit_length() // 8
 
     seed = 0
     digest = sha256_fdh(message, target_length, seed)
